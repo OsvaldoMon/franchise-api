@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://admin:password@mongodb:27017/franchise_db?authSource=admin
+      auto-index-creation: true
+
+logging:
+  level:
+    com.nequi.franchise: INFO
+    org.springframework.data.mongodb.core.ReactiveMongoTemplate: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
