@@ -1,6 +1,14 @@
 package com.nequi.franchise.infrastructure.web.controller;
 
+<<<<<<< HEAD
 import com.nequi.franchise.domain.port.FranchiseService;
+=======
+import com.nequi.franchise.application.usecase.FranchiseUseCase;
+import com.nequi.franchise.domain.model.Branch;
+import com.nequi.franchise.domain.model.Franchise;
+import com.nequi.franchise.domain.model.Product;
+import com.nequi.franchise.domain.model.Franchise.ProductWithBranch;
+>>>>>>> master
 import com.nequi.franchise.infrastructure.web.dto.BranchDto;
 import com.nequi.franchise.infrastructure.web.dto.FranchiseDto;
 import com.nequi.franchise.infrastructure.web.dto.ProductDto;
@@ -25,11 +33,19 @@ public class FranchiseController {
 
     private static final Logger logger = LoggerFactory.getLogger(FranchiseController.class);
     
+<<<<<<< HEAD
     private final FranchiseService franchiseService;
     private final FranchiseWebMapper franchiseWebMapper;
 
     public FranchiseController(FranchiseService franchiseService, FranchiseWebMapper franchiseWebMapper) {
         this.franchiseService = franchiseService;
+=======
+    private final FranchiseUseCase franchiseUseCase;
+    private final FranchiseWebMapper franchiseWebMapper;
+
+    public FranchiseController(FranchiseUseCase franchiseUseCase, FranchiseWebMapper franchiseWebMapper) {
+        this.franchiseUseCase = franchiseUseCase;
+>>>>>>> master
         this.franchiseWebMapper = franchiseWebMapper;
     }
 
@@ -42,7 +58,11 @@ public class FranchiseController {
         
         return Mono.just(franchiseDto)
                 .map(franchiseWebMapper::toDomain)
+<<<<<<< HEAD
                 .flatMap(franchiseService::createFranchise)
+=======
+                .flatMap(franchiseUseCase::createFranchise)
+>>>>>>> master
                 .map(franchiseWebMapper::toDto)
                 .map(ResponseEntity::ok)
                 .doOnSuccess(response -> logger.info("Franquicia creada exitosamente"))
@@ -56,7 +76,11 @@ public class FranchiseController {
     public Flux<FranchiseDto> getAllFranchises() {
         logger.debug("Obteniendo todas las franquicias");
         
+<<<<<<< HEAD
         return franchiseService.getAllFranchises()
+=======
+        return franchiseUseCase.getAllFranchises()
+>>>>>>> master
                 .map(franchiseWebMapper::toDto)
                 .doOnNext(franchise -> logger.debug("Franquicia obtenida: {}", franchise.getName()))
                 .doOnError(error -> logger.error("Error al obtener franquicias: {}", error.getMessage()));
@@ -69,7 +93,11 @@ public class FranchiseController {
     public Mono<ResponseEntity<FranchiseDto>> getFranchiseById(@PathVariable String id) {
         logger.debug("Obteniendo franquicia por ID: {}", id);
         
+<<<<<<< HEAD
         return franchiseService.getFranchiseById(id)
+=======
+        return franchiseUseCase.getFranchiseById(id)
+>>>>>>> master
                 .map(franchiseWebMapper::toDto)
                 .map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()))
@@ -86,7 +114,11 @@ public class FranchiseController {
             @RequestBody String newName) {
         logger.info("Actualizando nombre de franquicia ID: {} a: {}", id, newName);
         
+<<<<<<< HEAD
         return franchiseService.updateFranchiseName(id, newName)
+=======
+        return franchiseUseCase.updateFranchiseName(id, newName)
+>>>>>>> master
                 .map(franchiseWebMapper::toDto)
                 .map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()))
@@ -101,7 +133,11 @@ public class FranchiseController {
     public Mono<ResponseEntity<Void>> deleteFranchise(@PathVariable String id) {
         logger.info("Eliminando franquicia ID: {}", id);
         
+<<<<<<< HEAD
         return franchiseService.deleteFranchise(id)
+=======
+        return franchiseUseCase.deleteFranchise(id)
+>>>>>>> master
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()))
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()))
                 .doOnSuccess(response -> logger.info("Franquicia eliminada exitosamente"))
@@ -119,7 +155,11 @@ public class FranchiseController {
         
         return Mono.just(branchDto)
                 .map(franchiseWebMapper::toDomain)
+<<<<<<< HEAD
                 .flatMap(branch -> franchiseService.addBranchToFranchise(franchiseId, branch))
+=======
+                .flatMap(branch -> franchiseUseCase.addBranchToFranchise(franchiseId, branch))
+>>>>>>> master
                 .map(franchiseWebMapper::toDto)
                 .map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()))
@@ -137,7 +177,11 @@ public class FranchiseController {
             @RequestBody String newName) {
         logger.info("Actualizando nombre de sucursal ID: {} a: {}", branchId, newName);
         
+<<<<<<< HEAD
         return franchiseService.updateBranchName(franchiseId, branchId, newName)
+=======
+        return franchiseUseCase.updateBranchName(franchiseId, branchId, newName)
+>>>>>>> master
                 .map(franchiseWebMapper::toDto)
                 .map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()))
@@ -157,7 +201,11 @@ public class FranchiseController {
         
         return Mono.just(productDto)
                 .map(franchiseWebMapper::toDomain)
+<<<<<<< HEAD
                 .flatMap(product -> franchiseService.addProductToBranch(franchiseId, branchId, product))
+=======
+                .flatMap(product -> franchiseUseCase.addProductToBranch(franchiseId, branchId, product))
+>>>>>>> master
                 .map(franchiseWebMapper::toDto)
                 .map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()))
@@ -175,7 +223,11 @@ public class FranchiseController {
             @PathVariable String productId) {
         logger.info("Eliminando producto ID: {} de sucursal ID: {}", productId, branchId);
         
+<<<<<<< HEAD
         return franchiseService.removeProductFromBranch(franchiseId, branchId, productId)
+=======
+        return franchiseUseCase.removeProductFromBranch(franchiseId, branchId, productId)
+>>>>>>> master
                 .map(franchiseWebMapper::toDto)
                 .map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()))
@@ -194,7 +246,11 @@ public class FranchiseController {
             @RequestBody Integer newStock) {
         logger.info("Actualizando stock del producto ID: {} a: {}", productId, newStock);
         
+<<<<<<< HEAD
         return franchiseService.updateProductStock(franchiseId, branchId, productId, newStock)
+=======
+        return franchiseUseCase.updateProductStock(franchiseId, branchId, productId, newStock)
+>>>>>>> master
                 .map(franchiseWebMapper::toDto)
                 .map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()))
@@ -213,7 +269,11 @@ public class FranchiseController {
             @RequestBody String newName) {
         logger.info("Actualizando nombre del producto ID: {} a: {}", productId, newName);
         
+<<<<<<< HEAD
         return franchiseService.updateProductName(franchiseId, branchId, productId, newName)
+=======
+        return franchiseUseCase.updateProductName(franchiseId, branchId, productId, newName)
+>>>>>>> master
                 .map(franchiseWebMapper::toDto)
                 .map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()))
@@ -228,7 +288,11 @@ public class FranchiseController {
     public Flux<ProductWithBranchDto> getProductsWithMaxStockByFranchise(@PathVariable String franchiseId) {
         logger.info("Obteniendo productos con mayor stock por sucursal para franquicia ID: {}", franchiseId);
         
+<<<<<<< HEAD
         return franchiseService.getProductsWithMaxStockByFranchise(franchiseId)
+=======
+        return franchiseUseCase.getProductsWithMaxStockByFranchise(franchiseId)
+>>>>>>> master
                 .map(franchiseWebMapper::toDto)
                 .doOnNext(pwb -> logger.debug("Producto con mayor stock: {} en sucursal: {}", 
                         pwb.getProduct().getName(), pwb.getBranchName()))
