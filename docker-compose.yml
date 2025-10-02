@@ -45,4 +45,3 @@ volumes:
 networks:
   franchise-network:
     driver: bridge
-

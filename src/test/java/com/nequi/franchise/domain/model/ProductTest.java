@@ -58,4 +58,3 @@ class ProductTest {
         assertTrue(toString.contains("10"));
     }
 }
-
